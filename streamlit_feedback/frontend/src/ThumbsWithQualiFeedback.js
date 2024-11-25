@@ -52,6 +52,9 @@ export function ThumbsWithQualiFeedback(props) {
     const [thumbScore, setThumbScore] = useState(null);
     const [submitted, setSubmitted] = useState(false);
     const [inputText, setInputText] = useState(null);
+    const [selectedOption, setSelectedOption] = useState(null);
+
+    const options = ["Hallucination", "Irrelevant", "error", "option4", "option5"]
 
     useEffect(() => {
         if (props.disableWithScore) {
@@ -101,8 +104,12 @@ export function ThumbsWithQualiFeedback(props) {
         setInputText(text.currentTarget.value);
     };
 
+    const handleOptionClick = (option) => {
+        setSelectedOption(option);
+    }
+
     const handleSubmission = () => {
-        props.submitFeedback(thumbScore, inputText);
+        props.submitFeedback(thumbScore, inputText, selectedOption);
         setSubmitted(true);
     };
 
@@ -132,11 +139,33 @@ export function ThumbsWithQualiFeedback(props) {
                         }}
                         onClick={() => submitted ? {} : handleThumbClick("👎")}
                     />
-                    {submitted === false && thumbScore !== null ? <StyledTextField id="outlined-multiline-static" inputProps={{ maxLength: props.maxTextLength }} onChange={handleTextInput} multiline rows={4} placeholder={props.optionalTextLabel} aria-label="Demo input" color={thumbScore === "👍" ? TextFieldcolors["colorUp"] : TextFieldcolors["colorDown"]} /> : null}
-                    {submitted === false && thumbScore !== null ? <Button sx={{ color: thumbScore === "👍" ? colors["colorUp"] : colors["colorDown"] }} variant="text" size="small" onClick={handleSubmission}>Submit</Button> : null}
+                    {thumbScore === "👎" && !submitted && (
+                        <div>
+                            <Button onClick={() => handleOptionClick("hallucination")}>Hallucination</Button>
+                            <Button onClick={() => handleOptionClick("irrelevant")}>Irrelevant</Button>
+                            <Button onClick={() => handleOptionClick("error")}>Error</Button>
+                            <Button onClick={() => handleOptionClick("option4")}>Option 4</Button>
+                            <Button onClick={() => handleOptionClick("option5")}>Option 5</Button>
+                        </div>
+                    )}
+                    {submitted === false && thumbScore !== null ?
+                        <StyledTextField
+                            id="outlined-multiline-static"
+                            inputProps={{ maxLength: props.maxTextLength }}
+                            onChange={handleTextInput}
+                            multiline
+                            rows={4}
+                            placeholder={props.optionalTextLabel}
+                            aria-label="Demo input"
+                            color={thumbScore === "👍" ? TextFieldcolors["colorUp"] : TextFieldcolors["colorDown"]}
+                        /> : null
+                    }
+                    {submitted === false && thumbScore !== null && !selectedOption ?
+                        <Button sx={{ color: thumbScore === "👍" ? colors["colorUp"] : colors["colorDown"] }} variant="text" size="small" onClick={handleSubmission}>Submit</Button>
+                        : null}
                 </Stack>
             </Box>
-        )
+        );
     }
     else {
         return (
@@ -164,10 +193,28 @@ export function ThumbsWithQualiFeedback(props) {
                         }}
                         onClick={() => submitted ? {} : handleThumbClick("👎")}
                     />
-                    {submitted === false && thumbScore !== null ? <StyledCustomInput onChange={handleTextInput} aria-label="Demo input" placeholder={props.optionalTextLabel} color={thumbScore === "👍" ? colors["colorUp"] : colors["colorDown"]} /> : null}
-                    {submitted === false && thumbScore !== null ? <Button sx={{ color: thumbScore === "👍" ? colors["colorUp"] : colors["colorDown"] }} variant="text" size="small" onClick={handleSubmission}>Submit</Button> : null}
+                    {thumbScore === "👎" && !submitted && (
+                        <div>
+                            <Button onClick={() => handleOptionClick("hallucination")}>Hallucination</Button>
+                            <Button onClick={() => handleOptionClick("irrelevant")}>Irrelevant</Button>
+                            <Button onClick={() => handleOptionClick("error")}>Error</Button>
+                            <Button onClick={() => handleOptionClick("option4")}>Option 4</Button>
+                            <Button onClick={() => handleOptionClick("option5")}>Option 5</Button>
+                        </div>
+                    )}
+                    {submitted === false && thumbScore !== null && !selectedOption ?
+                        <StyledCustomInput
+                            onChange={handleTextInput}
+                            aria-label="Demo input"
+                            placeholder={props.optionalTextLabel}
+                            color={thumbScore === "👍" ? colors["colorUp"] : colors["colorDown"]}
+                        /> : null
+                    }
+                    {submitted === false && thumbScore !== null && !selectedOption ?
+                        <Button sx={{ color: thumbScore === "👍" ? colors["colorUp"] : colors["colorDown"] }} variant="text" size="small" onClick={handleSubmission}>Submit</Button>
+                        : null}
                 </Stack>
             </Box>
-        )
+        );
     }
 }
