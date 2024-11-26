@@ -8,10 +8,10 @@ long_description = (this_directory / "README.md").read_text()
 setuptools.setup(
     name="streamlit-feedback",
     version="0.1.3",
-    author="Łukasz Chmielewski",
+    author="Lukasz Chmielewski",
     author_email="lchmi@softserveinc.com",
     description=(
-        "Streamlit component that allows you to collect user feedback in your apps"
+        "Streamlit component that allows you to collect user custom feedback in your apps"
     ),
     long_description=long_description,
     long_description_content_type="text/markdown",
