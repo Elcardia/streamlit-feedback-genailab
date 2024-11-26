@@ -10,7 +10,7 @@ class MyComponent extends StreamlitComponentBase {
 
   render() {
     return (
-      <div>
+      <div style={{height: "20vw", width: "100%"}}>
         <Feedback
           feedbackType={this.props.args["feedback_type"]}
           optionalTextLabel={this.props.args["optional_text_label"]}
